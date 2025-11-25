@@ -31,5 +31,5 @@ jobs:
           port: 22
           debug: true
           source: ${{ vars.DEPLOY_DIR }}/*
-          target: "/srv/www/html/test-rep/htdocs/"
+          target: "/srv/www/vhosts/test-rep/htdocs/"
           strip_components: 1
