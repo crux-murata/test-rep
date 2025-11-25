@@ -1,0 +1,35 @@
+name: Deploy to WebServer
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Branch to preview
+        if: ${{ vars.DEPLOY_BRANCH == 'preview' }}
+        uses: actions/checkout@v4
+        with:
+          ref: preview
+
+      - name: Checkout source
+        if: "!(${{ vars.DEPLOY_BRANCH == 'preview' }})"
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Upload via SCP
+        uses: appleboy/scp-action@v0.1.7
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          port: 22
+          debug: true
+          source: ${{ vars.DEPLOY_DIR }}/*
+          target: "/srv/www/html/test-rep/htdocs/"
+          strip_components: 1
