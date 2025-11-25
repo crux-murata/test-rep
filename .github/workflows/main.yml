@@ -22,6 +22,18 @@ jobs:
         with:
           fetch-depth: 0
 
+      - name: Compress build directory
+        run: tar -czf deploy.tar.gz -C build/release/assets .
+
+      - name: Upload via SCP
+        uses: appleboy/scp-action@v0.1.7
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          source: "deploy.tar.gz"
+          target: "/tmp/"
+
       - name: Extract on remote
         uses: appleboy/ssh-action@v1.2.0
         with:
@@ -29,4 +41,5 @@ jobs:
           username: ${{ secrets.SSH_USER }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
-            hostname
+            hostname;
+            ls -la /tmp/
