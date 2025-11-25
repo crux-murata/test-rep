@@ -22,14 +22,11 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Upload via SCP
-        uses: appleboy/scp-action@v0.1.7
+      - name: Extract on remote
+        uses: appleboy/ssh-action@v1.2.0
         with:
           host: ${{ secrets.SSH_HOST }}
           username: ${{ secrets.SSH_USER }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
-          port: 22
-          debug: true
-          source: ${{ vars.DEPLOY_DIR }}/*
-          target: "/tmp/test-repo/htdocs/"
-          strip_components: 1
+          script: |
+            hostname
