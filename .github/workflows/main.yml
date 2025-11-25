@@ -23,7 +23,7 @@ jobs:
           fetch-depth: 0
 
       - name: Compress build directory
-        run: tar -czf /tmp/deploy.tar.gz ${{ vars.DEPLOY_DIR }} 
+        run: tar -zcf /tmp/deploy.tar.gz ${{ vars.DEPLOY_DIR }} 
 
       - name: Upload via SCP
         uses: appleboy/scp-action@v0.1.7
