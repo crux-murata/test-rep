@@ -29,8 +29,8 @@ jobs:
             tar -zcf /tmp/dep/deploy.tar.gz .;
             ls -la /tmp/dep/deploy.tar.gz
 
-      - name: Upload via SFTP
-        uses: wangyucode/sftp-upload-action@v2.0.4
+      - name: Upload via SCP
+        uses: appleboy/scp-action@v1
         with:
           host: ${{ secrets.SSH_HOST }}
           username: ${{ secrets.SSH_USER_scp }}
@@ -38,8 +38,8 @@ jobs:
           port: 22
           debug: true
           forceUpload: true
-          localDir: "/tmp/dep/"
-          remoteDir: "/tmp/"
+          source: "/tmp/dep/deploy.tar.gz"
+          target: "/tmp/dep/"
 
       - name: Extract on remote
         uses: appleboy/ssh-action@v1.2.0
