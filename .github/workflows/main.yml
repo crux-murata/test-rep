@@ -23,16 +23,19 @@ jobs:
           fetch-depth: 0
 
       - name: Compress build directory
-        run: cd ${{ vars.DEPLOY_DIR }} ; tar -zcf /tmp/deploy.tar.gz .; ls -la /tmp/deploy.tar.gz
+        run: cd ${{ vars.DEPLOY_DIR }} ; mkdir /tmp/dep tar -zcf /tmp/dep/deploy.tar.gz .; ls -la /tmp/dep/deploy.tar.gz
 
-      - name: Upload via SCP
-        uses: appleboy/scp-action@v0.1.7
+      - name: Upload via SFTP
+        uses: wangyucode/sftp-upload-action@v2.0.4
         with:
           host: ${{ secrets.SSH_HOST }}
-          username: ${{ secrets.SSH_USER }}
-          key: ${{ secrets.SSH_PRIVATE_KEY }}
-          source: "/tmp/deploy.tar.gz"
-          target: "/tmp/"
+          username: ${{ secrets.SSH_USER_scp }}
+          privateKey: ${{ secrets.SSH_PRIVATE_KEY }}
+          port: 22
+          debug: true
+          forceUpload: true
+          localDir: "/tmp/dep/"
+          remoteDir: "/tmp/"
 
       - name: Extract on remote
         uses: appleboy/ssh-action@v1.2.0
@@ -42,4 +45,7 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
             hostname;
-            ls -la /tmp/
+            cd /srv/www/html;
+            mkdir test-rep;
+            cd test-tep;
+            tar zxf /tmp/deploy.tar.gz
