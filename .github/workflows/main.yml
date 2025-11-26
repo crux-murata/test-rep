@@ -34,10 +34,9 @@ jobs:
         with:
           host: ${{ secrets.SSH_HOST }}
           username: ${{ secrets.SSH_USER_scp }}
-          privateKey: ${{ secrets.SSH_PRIVATE_KEY }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
           port: 22
           debug: true
-          forceUpload: true
           source: "/tmp/dep/deploy.tar.gz"
           target: "/tmp/dep/"
 
