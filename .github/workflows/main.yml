@@ -39,6 +39,7 @@ jobs:
           debug: true
           source: "/tmp/dep/deploy.tar.gz"
           target: "/tmp/dep/"
+          strip_components: 2
 
       - name: Extract on remote
         uses: appleboy/ssh-action@v1.2.0
