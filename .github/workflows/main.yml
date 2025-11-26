@@ -48,6 +48,6 @@ jobs:
           script: |
             hostname;
             cd /srv/www/html;
-            mkdir test-rep;
-            cd test-rep;
+            mkdir -p test-rep/htdocs;
+            cd test-rep/htdocs;
             tar zxf /tmp/dep/tmp/deploy.tar.gz
