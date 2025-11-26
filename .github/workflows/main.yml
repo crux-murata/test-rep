@@ -51,4 +51,4 @@ jobs:
             cd /srv/www/html;
             mkdir test-rep;
             cd test-tep;
-            tar zxf /tmp/deploy.tar.gz
+            tar zxf /tmp/dep/deploy.tar.gz
