@@ -25,9 +25,8 @@ jobs:
       - name: Compress build directory
         run: |
             cd ${{ vars.DEPLOY_DIR }} ;
-            mkdir /tmp/dep;
-            tar -zcf /tmp/dep/deploy.tar.gz .;
-            ls -la /tmp/dep/deploy.tar.gz
+            tar -zcf ~/deploy.tar.gz .;
+            ls -la ~/deploy.tar.gz
 
       - name: Upload via SCP
         uses: appleboy/scp-action@v1
@@ -37,9 +36,8 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           port: 22
           debug: true
-          source: "/tmp/dep/deploy.tar.gz"
+          source: "deploy.tar.gz"
           target: "/tmp/dep/"
-          strip_components: 2
 
       - name: Extract on remote
         uses: appleboy/ssh-action@v1.2.0
