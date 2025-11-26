@@ -49,5 +49,5 @@ jobs:
             hostname;
             cd /srv/www/html;
             mkdir test-rep;
-            cd test-tep;
+            cd test-rep;
             tar zxf /tmp/dep/tmp/deploy.tar.gz
