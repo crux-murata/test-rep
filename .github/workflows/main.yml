@@ -42,7 +42,7 @@ jobs:
           port: 22
           debug: true
           source: "/tmp/${{ github.event.repository.name }}.tar.gz"
-          target: "/tmp/dep/"
+          target: "/tmp/${{ RANDOM_ID }}/"
 
       - name: Extract on remote
         uses: appleboy/ssh-action@v1.2.0
