@@ -30,8 +30,8 @@ jobs:
       - name: Compress build directory
         run: |
             cd ${{ vars.DEPLOY_DIR }} ;
-            tar -zcf /tmp/$REPO_NAME.tar.gz .;
-            ls -la /tmp/$REPO_NAME.tar.gz
+            tar -zcf /tmp/${{ env.REPO_NAME }}.tar.gz .;
+            ls -la /tmp/${{ env.REPO_NAME }}.tar.gz
 
       - name: Upload via SCP
         uses: appleboy/scp-action@v1
@@ -41,7 +41,7 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           port: 22
           debug: true
-          source: "/tmp/${{ github.event.repository.name }}.tar.gz"
+          source: "/tmp/${{ env.REPO_NAME }}.tar.gz"
           target: "/tmp/${{ env.RANDOM_ID }}/"
 
       - name: Extract on remote
@@ -53,6 +53,6 @@ jobs:
           script: |
             hostname;
             cd /srv/www/html;
-            mkdir -p $REPO_NAME/htdocs;
-            cd $REPO_NAME/htdocs;
-            tar zxf /tmp/dep/tmp/$REPO_NAME.tar.gz
+            mkdir -p ${{ env.REPO_NAME }}/htdocs;
+            cd ${{ env.REPO_NAME }}/htdocs;
+            tar zxf /tmp/dep/tmp/${{ env.REPO_NAME }}.tar.gz
