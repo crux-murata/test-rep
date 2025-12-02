@@ -10,6 +10,10 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - name: Generate random ID
+        run: echo "RANDOM_ID=$(uuidgen)" >> $GITHUB_ENV;
+            echo "REPO_NAME=${{ github.event.repository.name }}" >> $GITHUB_ENV;
+
       - name: Branch to preview
         if: ${{ vars.DEPLOY_BRANCH == 'preview' }}
         uses: actions/checkout@v4
@@ -25,8 +29,8 @@ jobs:
       - name: Compress build directory
         run: |
             cd ${{ vars.DEPLOY_DIR }} ;
-            tar -zcf /tmp/deploy.tar.gz .;
-            ls -la /tmp/deploy.tar.gz
+            tar -zcf /tmp/$REPO_NAME.tar.gz .;
+            ls -la /tmp/$REPO_NAME.tar.gz
 
       - name: Upload via SCP
         uses: appleboy/scp-action@v1
@@ -36,7 +40,7 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           port: 22
           debug: true
-          source: "/tmp/deploy.tar.gz"
+          source: "/tmp/$REPO_NAME.tar.gz"
           target: "/tmp/dep/"
 
       - name: Extract on remote
@@ -48,6 +52,6 @@ jobs:
           script: |
             hostname;
             cd /srv/www/html;
-            mkdir -p test-rep/htdocs;
-            cd test-rep/htdocs;
-            tar zxf /tmp/dep/tmp/deploy.tar.gz
+            mkdir -p $REPO_NAME/htdocs;
+            cd $REPO_NAME/htdocs;
+            tar zxf /tmp/dep/tmp/$REPO_NAME.tar.gz
