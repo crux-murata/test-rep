@@ -40,7 +40,7 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           port: 22
           debug: true
-          source: "/tmp/$REPO_NAME.tar.gz"
+          source: "/tmp/test-rep.tar.gz"
           target: "/tmp/dep/"
 
       - name: Extract on remote
