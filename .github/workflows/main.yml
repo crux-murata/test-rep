@@ -41,7 +41,7 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           port: 22
           debug: true
-          source: $SRC_PATH
+          source: "/tmp/${{ github.event.repository.name }}.tar.gz"
           target: "/tmp/dep/"
 
       - name: Extract on remote
